@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import com.fedor.RequestNetwork;
 import com.fedor.Files;
+import com.fedor.JsonParser;
 
 public class Main {
   public static boolean isRussian = true;
@@ -15,34 +16,24 @@ public class Main {
     JButton check = new JButton("Проверить");
     check.setBounds(10, 70, 120, 20);
     a.add(check);
-    a.setSize(300, 300);
-    a.setLayout(null);
-    a.setVisible(true);
     // Поле ввода текста
     JTextField d = new JTextField();
     d.setBounds(10, 30, 230, 30);
     a.add(d);
-    a.setSize(300, 300);
-    a.setLayout(null);
-    a.setVisible(true);
     // Подсказка ввода
     JLabel hint = new JLabel("Введите текст для проверки");
     hint.setBounds(10, 0, 300, 30);
     a.add(hint);
-    a.setSize(300, 300);
-    a.setLayout(null);
-    a.setVisible(true);
     // Поле вывода результата
-    JLabel res = new JLabel("Текст");
-    res.setBounds(10, 100, 300, 30);
+    JTextArea res = new JTextArea("Текст");
+    res.setBounds(10, 100, 300, 300);
+    res.setLineWrap(true);
+    res.setWrapStyleWord(true);
     a.add(res);
-    a.setSize(400, 400);
-    a.setLayout(null);
-    a.setVisible(true);
     // Выбор языка
     String[] langs = {
-        "Русский язык",
-        "Английский язык"
+      "Русский язык",
+      "Английский язык"
     };
     JComboBox lang = new JComboBox(langs);
     lang.setBounds(140, 70, 100, 30);
@@ -57,6 +48,7 @@ public class Main {
       }
     };
     lang.addActionListener(actionListener);
+    JsonParser jp = new JsonParser();
     // Событие при нажатии кнопки
     check.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -65,7 +57,7 @@ public class Main {
           if (eql(check(replaceSpacesToPluses(d.getText())), correct)) {
             res.setText("В тексте нет ошибок");
           } else {
-            res.setText("В тексте есть ошибки");
+            res.setText(jp.jmain(check(replaceSpacesToPluses(d.getText()))));
           }
         } catch (Exception ex) {
           res.setText("Ошибка");
