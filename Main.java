@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import com.fedor.RequestNetwork;
+import com.fedor.Files;
 
 public class Main {
   public static boolean isRussian = true;
@@ -75,12 +76,14 @@ public class Main {
 
   public static String check(String d) throws Exception {
     RequestNetwork rn = new RequestNetwork();
+    Files f = new Files();
+    String key = f.readfile("key.config");
     if (isRussian) {
       return rn.getHTML("https://api.textgears.com/spelling?text=" + d
-          + ".&language=ru-RU&whitelist=&dictionary_id=&ai=1&key=SyBOo3FE9fH3xS4D");
+          + ".&language=ru-RU&whitelist=&dictionary_id=&ai=1&key=" + key);
     } else {
       return rn.getHTML("https://api.textgears.com/spelling?text=" + d
-          + ".&language=en-GB&whitelist=&dictionary_id=&ai=1&key=SyBOo3FE9fH3xS4D");
+          + ".&language=en-GB&whitelist=&dictionary_id=&ai=1&key=" + key);
     }
   }
 
